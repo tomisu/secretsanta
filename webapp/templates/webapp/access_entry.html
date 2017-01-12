@@ -1,0 +1,25 @@
+{% extends 'webapp/base.html' %}
+{% load staticfiles%}
+
+{% block extra_header %}
+
+<link rel="stylesheet" href="{% static 'css/match.css' %}">
+{% endblock %}
+
+{% block content %}
+
+{% if is_locked == False %}
+<h1>Your match is unprotected</h1>
+<h2>Set a password so only you can access it</h2>
+{% else %}
+<h1>This match is locked</h1>
+{% endif %}
+
+<form method="POST" class="form-inline" >{% csrf_token %}
+    <div class="form-group">
+        <input type="password" name="password" placeholder="Password"/>
+    </div>
+    <button type="submit" class="btn btn-default btn-success">Lock and view</button>
+</form>
+
+{% endblock %}

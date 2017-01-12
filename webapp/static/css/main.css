@@ -1,0 +1,15 @@
+.page-header{
+    background-color: #2E6DA3;
+    margin-top: 0;
+    padding: 2em;
+    color: white;
+}
+
+.page-header h1{
+    margin:0;
+}
+
+a, a:hover{
+    text-decoration: none;
+    color: inherit;
+}

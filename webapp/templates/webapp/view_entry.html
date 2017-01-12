@@ -1,0 +1,12 @@
+{% extends 'webapp/base.html' %}
+{% load staticfiles%}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/match.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1>Your match is <span>{{giftee}}<span></h1>
+
+{% endblock %}

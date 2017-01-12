@@ -1,0 +1,60 @@
+{% extends 'webapp/base.html' %}
+{% load staticfiles%}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/participants.css' %}">
+{% endblock %}
+{% block content %}
+
+<h1>Add People</h1>
+<p>Status: {{response}}</p>
+
+<form method="POST" class="form-inline">{% csrf_token %}
+    <div class="row">
+
+        <div class="form-group col">
+          <input type="text" class="form-control" name="name" placeholder="Name">
+        </div>
+
+        <div class="form-group col">
+          <input type="text" class="form-control" name="age" placeholder="Age">
+        </div>
+
+        <button type="submit" class="btn btn-default btn-success">Submit</button>
+
+    </div>
+</form>
+
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Age</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for participant in participants %}
+        <tr class="entry-row">
+          <td class="col-md-1"><span class="delete-participant glyphicon glyphicon-remove-circle" aria-hidden="true"></span></td>
+          <td class="col-md-6">{{participant.name}}</td>
+          <td class="col-md-2">{{participant.age}}</td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+  </table>
+</div>
+
+    {% if participants|length > 2 %}
+    <a href= "../close/">
+        <button type="submit" class="btn btn-success btn-lg">Match!</button>
+    </a>
+    {% endif %}
+
+
+</div>
+
+{% endblock %}

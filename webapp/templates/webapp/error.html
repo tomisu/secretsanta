@@ -1,0 +1,10 @@
+{% extends 'webapp/base.html' %}
+{% load staticfiles%}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/error.css' %}">
+{% endblock %}
+{% block content %}
+<h1>Oops! An error has occurred</h1>
+{{description}}
+{% endblock %}

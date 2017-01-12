@@ -17,7 +17,7 @@ class message:
 
     def error(exception):
         message = {
-            'satus': "ERROR",
+            'status': "ERROR",
             'description': exception.__name__,
         }
         return HttpResponse(json.dumps(message), content_type='application/json')

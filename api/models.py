@@ -1,5 +1,6 @@
 from django.db import models
 from .exceptions import *
+from .util import *
 import random
 
 # Create your models here.
@@ -9,6 +10,16 @@ class Room(models.Model):
     A 'game' of Secret Santa
     """
     is_closed = models.BooleanField(default=False)
+
+    @classmethod
+    def access(cls, room_id):
+        try:
+            room = Room.objects.get(pk=room_id)
+        except Exception:
+            raise RoomNotFound
+
+        return room
+
 
     def shuffle(self, participants):
         entries = []
@@ -51,6 +62,7 @@ class Room(models.Model):
     def __str__(self):
         return "Room {}".format(self.pk)
 
+
 class Participant(models.Model):
     """
     The name and age of a participant in a specific room
@@ -71,6 +83,8 @@ class Entry(models.Model):
     gifter = models.ForeignKey('Participant', related_name="gifter_entries")
     giftee = models.ForeignKey('Participant', related_name="giftee_entries")
     is_locked = models.BooleanField(default=False)
+    password = models.CharField(max_length=24, default=None, null=True, blank=True)
+
 
     def __str__(self):
         return "{} gifts to {} in room {} (locked is {})".format(self.gifter.name, self.giftee.name, str(self.room), str(self.is_locked))
@@ -79,3 +93,19 @@ class Entry(models.Model):
     def create(cls, room, gifter, giftee):
         entry = cls(room=room, gifter=gifter, giftee=giftee)
         return entry
+
+    def get_giftee(self, **kwargs):
+        password = kwargs.get('password', None)
+        if password is None and self.is_locked is False:
+            raise NeedToSetPassword
+
+        password_md5 = computeMD5hash(password)
+        if self.is_locked:
+            if password_md5 != self.password:
+                raise WrongPassword
+        else:
+            self.password = password_md5
+            self.is_locked = True
+            self.save()
+
+        return self.giftee

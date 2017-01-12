@@ -1,0 +1,51 @@
+{% extends 'webapp/base.html' %}
+{% load staticfiles%}
+
+{% block extra_header %}
+<link rel="stylesheet" href="{% static 'css/entries.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<h1>Matches</h1>
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in entries %}
+        <a href="testsa" class="entry-row">
+        <tr class="entry-row">
+          <td class="col-md-1">
+              <a href="./{{entry.pk}}/">
+
+              {% if entry.is_locked %}
+              <button class="btn btn-danger">
+              <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+              {% else %}
+              <button class="btn btn-primary">
+              <span class="glyphicon glyphicon-gift" aria-hidden="true"></span>
+              {% endif %}
+              Check
+              </button>
+            </a>
+          </td>
+          <td class="col-md-6">{{entry.gifter}}</td>
+        </tr>
+         </a>
+
+        {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+
+</div>
+
+{% endblock %}

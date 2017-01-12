@@ -1,0 +1,24 @@
+{% load staticfiles %}
+<head>
+    <title>Secret Santa</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block extra_header %}
+
+    {% endblock %}
+</head>
+<body>
+    <div class="page-header">
+      <a href="/">
+      <h1>Santa has gone digital</h1>
+      </a>
+    </div>
+
+    <div class="container">
+      <div class="jumbotron">
+        {% block content %}
+        {% endblock %}
+      </div>
+    </div>
+</body>

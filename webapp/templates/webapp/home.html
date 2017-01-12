@@ -1,0 +1,12 @@
+{% extends 'webapp/base.html' %}
+
+{% block content %}
+
+{{response}}
+<h1>Secret Santa manager</h1>
+<p>No more folded papers in a hat, no more manual pairings, and most of all, no more forgetting who you’re gifting to!</p>
+<form method="POST">{% csrf_token %}
+    <button type="submit" class="btn btn-success btn-lg">Create a Secret Santa</button>
+</form>
+
+{% endblock %}
