@@ -22,6 +22,11 @@ class Room(models.Model):
 
 
     def shuffle(self, participants):
+        """
+        Generate the pairings.
+        If a gifter is left with no valid giftees (invalid pairing), returns False,
+        otherwise, returns a list of Entry objects
+        """
         entries = []
         giftees = list(participants)
         for gifter in participants:
@@ -36,6 +41,10 @@ class Room(models.Model):
 
 
     def generate_entries(self):
+        """
+        Generates pairings via "shuffle" until a good result is valid.
+        Then, saves the Entry objects
+        """
         participants = self.participants.all()
         if len(participants) <2:
             raise NotEnoughPeople
@@ -75,7 +84,7 @@ class Participant(models.Model):
 
 class Entry(models.Model):
     """
-    The relation of gifter and giftee
+    The relation of gifter and giftee, and its status
     """
     room = models.ForeignKey('Room', related_name="entries")
     gifter = models.ForeignKey('Participant', related_name="gifter_entries")

@@ -143,6 +143,7 @@ def list_participants(request, room_id):
 
     return message.success(participants)
 
+
 @csrf_exempt
 def list_entries(request, room_id):
     try:

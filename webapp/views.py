@@ -17,6 +17,10 @@ def home(request):
 
 
 def enter_room(request, room_id):
+    """
+    This view redirects the user to home or add_people, based on whether the room is closed or not
+    """
+
     response = API.is_room_closed(room_id)
     if response['status'] != "OK":
         return render(request, 'webapp/home.html',  {'description':response['description']})
@@ -28,11 +32,16 @@ def enter_room(request, room_id):
 
 
 def add_people(request, room_id):
+    """
+    (If it's called by POST) Adds a participant
+    Renders the list of people
+    """
     if request.method == "POST":
         response = API.add_participant(room_id, request.POST.get('name',None), request.POST.get('age',None))
 
         if response['status'] != "OK":
             return render(request, 'webapp/error.html', {'description':response['description']})
+
 
     response = API.list_participants(room_id)
     if response['status'] != "OK":

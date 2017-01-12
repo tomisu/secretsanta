@@ -5,6 +5,10 @@ import json
 API_URL = 'http://localhost:8000/api/'
 
 class API:
+    """
+    This class manages the API calls for a more readable use.
+    If a URL is invalid, it will raise Http404 error.
+    """
 
     @staticmethod
     def call(url, data=None):
