@@ -36,7 +36,6 @@ class Room(models.Model):
 
 
     def generate_entries(self):
-        Entry.objects.filter(room=self).delete()#REMOVE
         participants = self.participants.all()
         if len(participants) <2:
             raise NotEnoughPeople
@@ -54,7 +53,6 @@ class Room(models.Model):
 
 
     def close(self):
-        self.is_closed = False #REMOVE
         self.generate_entries()
         self.is_closed = True
         self.save()
