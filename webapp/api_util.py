@@ -2,11 +2,13 @@ from django.http import Http404
 import requests
 import json
 
+API_URL = 'http://localhost:8000/api/'
+
 class API:
 
     @staticmethod
     def call(url, data=None):
-        req = requests.post('http://localhost:8000/api/'+url, data=data)
+        req = requests.post(API_URL+url, data=data)
         try:
             response = req.json();
         except:
