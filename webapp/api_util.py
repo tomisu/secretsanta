@@ -1,3 +1,4 @@
+from django.http import Http404
 import requests
 import json
 
@@ -9,7 +10,7 @@ class API:
         try:
             response = req.json();
         except:
-            import pdb; pdb.set_trace()
+            raise raise Http404("Bad API call")
 
         return response
 

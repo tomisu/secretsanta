@@ -11,7 +11,6 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 @csrf_exempt
 def new_room(request):
-    request.POST = request.GET
     room = Room()
     try:
         room.save()
@@ -36,12 +35,6 @@ def is_room_closed(request, room_id):
 
 @csrf_exempt
 def add_participant(request, room_id):
-    """
-    Add a participant to a room
-
-    TODO: Avoid adding participants with a duplicate name
-    """
-
     name = request.POST.get('name', None)
     age = request.POST.get('age', None)
 
@@ -71,8 +64,6 @@ def add_participant(request, room_id):
 
 @csrf_exempt
 def close_room(request, room_id):
-    request.POST = request.GET
-
     try:
         room = Room.access(room_id)
     except Exception as room_exception:
@@ -138,37 +129,35 @@ def check_entry(request, room_id, entry_id):
 
 @csrf_exempt
 def list_participants(request, room_id):
-        try:
-            room = Room.access(room_id)
-        except Exception as room_exception:
-            return message.error(type(room_exception))
+    try:
+        room = Room.access(room_id)
+    except Exception as room_exception:
+        return message.error(type(room_exception))
 
-        participants = []
-        for participant in room.participants.all():
-            participants.append({
-                'name':participant.name,
-                'age':participant.age,
-            })
+    participants = []
+    for participant in room.participants.all():
+        participants.append({
+            'name':participant.name,
+            'age':participant.age,
+        })
 
-        return message.success(participants)
+    return message.success(participants)
 
 @csrf_exempt
 def list_entries(request, room_id):
-        request.POST = request.GET #REMOVE
+    try:
+        room = Room.access(room_id)
+    except Exception as room_exception:
+        return message.error(type(room_exception))
 
-        try:
-            room = Room.access(room_id)
-        except Exception as room_exception:
-            return message.error(type(room_exception))
+    if room.is_closed is False:
+        return message.error(RoomNotClosedYet)
 
-        if room.is_closed is False:
-            return message.error(RoomNotClosedYet)
-
-        entries = []
-        for entry in room.entries.all():
-            entries.append({
-                'pk':entry.pk,
-                'gifter':entry.gifter.name,
-                'is_locked':entry.is_locked,
-            })
-        return message.success(entries)
+    entries = []
+    for entry in room.entries.all():
+        entries.append({
+            'pk':entry.pk,
+            'gifter':entry.gifter.name,
+            'is_locked':entry.is_locked,
+        })
+    return message.success(entries)
