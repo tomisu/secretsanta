@@ -10,7 +10,7 @@ class API:
         try:
             response = req.json();
         except:
-            raise raise Http404("Bad API call")
+            raise Http404("Bad API call")
 
         return response
 
